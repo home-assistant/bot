@@ -4,16 +4,17 @@ import { GithubService } from '../../../../libs/github/src/github.service';
 import { Emoji, Channel } from '../../discord.const';
 import { Command } from '../../discord.decorator';
 import { CommandBase } from '../base/base.command';
-import { adr0007 } from './adr/0007';
+import { adr0007, adr0007configFlow } from './adr/0007';
 import { adr0010 } from './adr/0010';
 
 export const NAME = 'enforce_adr';
 export const ADRS = {
-  7: adr0007,
-  10: adr0010,
+  '7': adr0007,
+  '7-config-flow': adr0007configFlow,
+  '10': adr0010,
 };
 
-const MATCH = /(\d+) (.*)\/(\d+)/;
+const MATCH = /(.+) (.*)\/(\d+)/;
 
 @Injectable()
 export class CommandEnforceAdr extends CommandBase {
@@ -38,13 +39,12 @@ export class CommandEnforceAdr extends CommandBase {
       return;
     }
     const [_input, adr, repo, number] = MATCH.exec(message.content);
-    const adrNumber = Number(adr);
-    console.log(adrNumber);
+    let targetAdr = adr.split('-')[0].padStart(4, '0');
 
-    if (!ADRS[adrNumber]) {
+    if (!ADRS[adr]) {
       await message.react(Emoji.RED_X);
       await message.channel.send(
-        `ADR ${adrNumber} is not one of the configured ADR's (${Object.keys(ADRS)})`,
+        `ADR ${adr} is not one of the configured ADR's (${Object.keys(ADRS)})`,
       );
       return;
     }
@@ -53,14 +53,14 @@ export class CommandEnforceAdr extends CommandBase {
       owner,
       repo,
       pull_number: Number(number),
-      body: ADRS[adrNumber],
+      body: ADRS[adr],
       event: 'REQUEST_CHANGES',
     });
     await this.githubService.issueAddLabels({
       owner,
       repo,
       issue_number: Number(number),
-      labels: [`adr-${adrNumber.toString().padStart(4, '0')}`],
+      labels: [`adr-${targetAdr}`],
     });
     await this.githubService.pullRequestUpdate({
       owner,
@@ -69,12 +69,7 @@ export class CommandEnforceAdr extends CommandBase {
       state: 'closed',
     });
     await message.channel.send(
-      `ADR ${adrNumber
-        .toString()
-        .padStart(
-          4,
-          '0',
-        )} has been enforced on <https://github.com/${owner}/${repo}/pull/${number}>`,
+      `ADR ${targetAdr} has been enforced on <https://github.com/${owner}/${repo}/pull/${number}>`,
     );
   }
 }

@@ -47,7 +47,7 @@ describe(NAME, () => {
     // @ts-ignore
     await command.command(messageMock);
     expect(messageMock.channel.send).toBeCalledWith(
-      "ADR 0 is not one of the configured ADR's (7,10)",
+      "ADR 0 is not one of the configured ADR's (7,10,7-config-flow)",
     );
   });
 
@@ -57,7 +57,7 @@ describe(NAME, () => {
     // @ts-ignore
     await command.command(messageMock);
     expect(githubService.pullRequestReview).toBeCalledWith(
-      expect.objectContaining({ event: 'REQUEST_CHANGES', body: ADRS[7] }),
+      expect.objectContaining({ event: 'REQUEST_CHANGES', body: ADRS['7'] }),
     );
     expect(githubService.issueAddLabels).toBeCalledWith(
       expect.objectContaining({ labels: ['adr-0007'] }),
