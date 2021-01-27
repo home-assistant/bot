@@ -30,7 +30,7 @@ If ADR-0010 applies, see our developer documentation on how to get started creat
 
 As these changes often involve a bit of work and some significant shift in the current code, we will close this PR for now.
 
-We (and our community!) would really appreciate it if you could start on the refactoring of this integration in a new PR.
+We (and our community!) would really appreciate it if you could start on the refactoring of this integration. If you do so, submit it in a new PR.
 
 Thanks already! :+1:
 `;
