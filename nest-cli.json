@@ -1,0 +1,52 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "root": "src",
+  "projects": {
+    "bot": {
+      "type": "application",
+      "root": "src",
+      "entryFile": "main",
+      "sourceRoot": "src",
+      "compilerOptions": {
+        "tsConfigPath": "src/tsconfig.app.json"
+      }
+    },
+    "sentry": {
+      "type": "library",
+      "root": "libs/sentry",
+      "entryFile": "index",
+      "sourceRoot": "libs/sentry/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sentry/tsconfig.lib.json"
+      }
+    },
+    "health": {
+      "type": "library",
+      "root": "libs/health",
+      "entryFile": "index",
+      "sourceRoot": "libs/health/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/health/tsconfig.lib.json"
+      }
+    },
+    "github": {
+      "type": "library",
+      "root": "libs/github",
+      "entryFile": "index",
+      "sourceRoot": "libs/github/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/github/tsconfig.lib.json"
+      }
+    },
+    "version": {
+      "type": "library",
+      "root": "libs/version",
+      "entryFile": "index",
+      "sourceRoot": "libs/version/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/version/tsconfig.lib.json"
+      }
+    }
+  }
+}

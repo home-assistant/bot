@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+      "@app/sentry": [
+        "libs/sentry/src"
+      ],
+      "@app/sentry/*": [
+        "libs/sentry/src/*"
+      ],
+      "@app/health": [
+        "libs/health/src"
+      ],
+      "@app/health/*": [
+        "libs/health/src/*"
+      ],
+      "@app/github": [
+        "libs/github/src"
+      ],
+      "@app/github/*": [
+        "libs/github/src/*"
+      ],
+      "@app/version": [
+        "libs/version/src"
+      ],
+      "@app/version/*": [
+        "libs/version/src/*"
+      ]
+    },
+    "importHelpers": true,
+    "noEmitHelpers": true
+  }
+}
