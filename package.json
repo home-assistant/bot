@@ -45,6 +45,7 @@
     "convict": "^6.0.0",
     "discord-nestjs": "^0.3.6",
     "discord.js": "^12.5.1",
+    "find-up": "^5.0.0",
     "nestjs-pino": "^1.2.0",
     "nodemailer": "^6.4.14",
     "pino-pretty": "^4.3.0",

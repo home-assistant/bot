@@ -3,14 +3,15 @@ WORKDIR /app
 COPY . /app
 ENV NODE_ENV production
 RUN \
-    yarn install \
+    yarn global add \
+        @nestjs/cli \
+    && yarn install \
     && yarn prebuild \
     && yarn build
 
 
 FROM node:14-slim
 WORKDIR /app
-COPY --from=builder /app/.yarn /app/.yarn
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/libs /app/libs
 COPY package.json ./
