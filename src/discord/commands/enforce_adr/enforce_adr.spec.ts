@@ -66,7 +66,7 @@ describe(NAME, () => {
       expect.objectContaining({ state: 'closed' }),
     );
     expect(messageMock.channel.send).toBeCalledWith(
-      'ADR 0007 has been enforced on <https://github.com/home-assistant/awesome/pulls/1337>',
+      'ADR 0007 has been enforced on <https://github.com/home-assistant/awesome/pull/1337>',
     );
   });
 });
