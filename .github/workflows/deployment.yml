@@ -1,0 +1,73 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION_TERRAFORM: '0.14.3'
+  VERSION_PYTHON: '3.8'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.VERSION_TERRAFORM }}
+
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.VERSION_PYTHON }}
+
+      - name: Wait for build
+        uses: home-assistant/actions/waitforjob@master
+        with:
+          job: Build
+
+      - name: Set version
+        id: version
+        run: |
+          hash=$(git rev-parse HEAD)
+          source=$(git config --get remote.origin.url)
+          echo "{\"version\": {\"hash\": \"$hash\", \"source\": \"$source\"}}" > ./version.json
+          echo "::set-output name=hash::${hash}"
+
+      - name: Build App Container
+        id: build
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          DOCKER_ARGS=()
+
+          pip3 install awscli
+          eval $(aws ecr get-login --no-include-email)
+
+          if docker pull ${{ secrets.AWS_IMAGE_NAME }}:latest; then
+            DOCKER_ARGS+=(--cache-from "${{ secrets.AWS_IMAGE_NAME }}:latest")
+          fi
+
+          docker build --pull "${DOCKER_ARGS[@]}" -t "${{ secrets.AWS_IMAGE_NAME }}:${{ steps.version.outputs.hash }}" .
+          docker tag "${{ secrets.AWS_IMAGE_NAME }}:${{ steps.version.outputs.hash }}" "${{ secrets.AWS_IMAGE_NAME }}:latest"
+
+          docker push "${{ secrets.AWS_IMAGE_NAME }}:${{ steps.version.outputs.hash }}"
+          docker push "${{ secrets.AWS_IMAGE_NAME }}:latest"
+
+      - name: Initialize terraform
+        run: |
+          cd ./deployment
+          terraform init
+
+      - name: Apply terraform
+        run: |
+          cd ./deployment
+          terraform apply -var "app_tag=${{ steps.version.outputs.hash }}" -auto-approve
