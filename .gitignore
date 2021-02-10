@@ -43,6 +43,5 @@ lerna-debug.log*
 dump.rdb
 
 # Deployment
-deployment/*
-deployment/*/.terraform
+deployment/.terraform
 .devcontainer/credentials
