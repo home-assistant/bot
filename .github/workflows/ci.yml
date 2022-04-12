@@ -30,7 +30,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
       - name: Check yarn cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3.0.2
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -62,7 +62,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
       - name: Check yarn cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3.0.2
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -94,7 +94,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
       - name: Check yarn cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3.0.2
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
