@@ -21,7 +21,7 @@ jobs:
         uses: home-assistant/actions/helpers/jq@master
 
       - name: Use Node.js ${{ env.node-NODE_VERSION }}
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ env.node-NODE_VERSION }}
 
@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v3.0.2
 
       - name: Use Node.js ${{ env.node-NODE_VERSION }}
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ env.node-NODE_VERSION }}
 
@@ -85,7 +85,7 @@ jobs:
         uses: actions/checkout@v3.0.2
 
       - name: Use Node.js ${{ env.node-NODE_VERSION }}
-        uses: actions/setup-node@v3.0.0
+        uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ env.node-NODE_VERSION }}
 
